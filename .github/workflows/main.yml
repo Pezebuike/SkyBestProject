@@ -87,12 +87,12 @@ jobs:
           cd ./main
           terraform plan -var-file="terraform.tfvars" -input=false
 
-      # - name: Apply Terraform Deployment
+      - name: Apply Terraform Deployment
+        run: |
+          cd ./main
+          terraform apply -auto-approve -var-file="terraform.tfvars"
+      # - name: Destroy Terraform Infrastructure
+      #   if: always() # Ensures this step runs even if previous steps fail
       #   run: |
       #     cd ./main
-      #     terraform apply -auto-approve -var-file="terraform.tfvars"
-      #     - name: Destroy Terraform Infrastructure
-      #     if: always() # Ensures this step runs even if previous steps fail
-      #     run: |
-      #       cd ./aws_petclinic_region1
-      #       terraform destroy -auto-approve -var-file="terraform.tfvars"    
+      #     terraform destroy -auto-approve -var-file="terraform.tfvars"    
