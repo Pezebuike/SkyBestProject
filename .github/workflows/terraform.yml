@@ -5,6 +5,7 @@ on:
   push:
     branches:
       - main  # Trigger on push to the main branch
+      - stage  # Trigger on push to the stage branch
     paths:
       - 'main/**'  # Trigger if files in the 'main' directory are changed
       - 'packer_build/**'  # Trigger if files in the 'packer_build' directory are changed
