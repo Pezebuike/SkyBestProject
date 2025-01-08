@@ -144,11 +144,11 @@ jobs:
         if: github.ref == 'refs/heads/main' && github.event_name =='push' # Only apply the deployment on push events
         run: |
           cd ./main
-          terraform apply -auto-approve -var-file="terraform.tfvars"  # Apply the deployment automatically (no prompts)
+          terraform apply -auto-approve -var-file="terraform.tfvars" -parallelism=1 planfile# Apply the deployment automatically (no prompts)
                
       # Optional step to destroy Terraform infrastructure (commented out)
-      # - name: Destroy Terraform Infrastructure
-      #   if: always()  # Ensures this step runs even if previous steps fail
-      #   run: |
-      #     cd ./main
-      #     terraform destroy -auto-approve -var-file="terraform.tfvars"  # Destroy the infrastructure automatically (no prompts)
+      - name: Destroy Terraform Infrastructure
+        if: always()  # Ensures this step runs even if previous steps fail
+        run: |
+          cd ./main
+          terraform destroy -auto-approve -var-file="terraform.tfvars"  # Destroy the infrastructure automatically (no prompts)
