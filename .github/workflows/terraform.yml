@@ -129,22 +129,23 @@ jobs:
         run: |
           cd ./main
           terraform plan -var-file="terraform.tfvars" -input=false -no-color -out planfile  # Plan the deployment using a Terraform variable file
-
-      # Step 8: Apply the Terraform deployment
-      - name: Apply Terraform Deployment
-        id: apply
-        run: |
-          cd ./main
-          terraform apply -auto-approve -var-file="terraform.tfvars"  # Apply the deployment automatically (no prompts)
-        continue-on-error: true  # Allow the workflow to continue even if this step fails
-
-      # Step 9: Check if Terraform plan failed
+        continue-on-error: true # Allow the workflow to continue even if this step fails
+      
+      # Step 8: Check if Terraform plan failed
       - name: Terraform Status
         # Check if the previous plan step failed
         if: steps.plan.outcome == 'failure' 
         run: |
           exit 1  # Exit the workflow with an error if the plan failed
-
+        
+        # Step 9: Apply the Terraform deployment
+      - name: Apply Terraform Deployment
+        id: apply
+        if: github.ref == 'refs/heads/main' && github.event_name =='push' # Only apply the deployment on push events
+        run: |
+          cd ./main
+          terraform apply -auto-approve -var-file="terraform.tfvars"  # Apply the deployment automatically (no prompts)
+               
       # Optional step to destroy Terraform infrastructure (commented out)
       # - name: Destroy Terraform Infrastructure
       #   if: always()  # Ensures this step runs even if previous steps fail
