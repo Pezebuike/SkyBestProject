@@ -139,7 +139,8 @@ jobs:
 
       # Step 9: Check if Terraform plan failed
       - name: Terraform Status
-        if: steps.plan.outcome == 'failure'  # Check if the previous plan step failed
+        # Check if the previous plan step failed
+        if: steps.plan.outcome == 'failure' 
         run: |
           exit 1  # Exit the workflow with an error if the plan failed
 
