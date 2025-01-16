@@ -1,3 +1,4 @@
+#!/bin/bash
 cd
 sudo yum update -y
 sudo yum install docker containerd git screen -y
